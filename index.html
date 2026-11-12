@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPACE LIGHT | Software & Engineering Solutions - Muhamed Elhamalawy</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cairo for Arabic & Orbitron/Inter for Metallic Tech English -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        metal: {
+                            950: '#070a0f',
+                            900: '#0a0d12',
+                            800: '#131b28',
+                            700: '#1e293b',
+                            400: '#94a3b8',
+                            200: '#e2e8f0',
+                        },
+                        ice: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            glow: 'rgba(56, 189, 248, 0.25)'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0a0d12;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.07) 0%, transparent 35%),
+                radial-gradient(circle at 85% 60%, rgba(148, 163, 184, 0.06) 0%, transparent 40%),
+                linear-gradient(180deg, #070a0f 0%, #0b111a 50%, #070a0f 100%);
+        }
+
+        /* Metallic Shiny Text Effects */
+        .metallic-text {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 25%, #64748b 50%, #f1f5f9 75%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 2px 15px rgba(255, 255, 255, 0.08);
+        }
+
+        .metallic-cyan-text {
+            background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 40%, #38bdf8 70%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Brushed Metal Cards & Borders */
+        .metallic-card {
+            background: linear-gradient(145deg, rgba(22, 31, 46, 0.85) 0%, rgba(11, 16, 24, 0.95) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            box-shadow: 
+                0 10px 30px -10px rgba(0, 0, 0, 0.7),
+                inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .metallic-card:hover {
+            border-color: rgba(56, 189, 248, 0.45);
+            box-shadow: 
+                0 15px 35px -10px rgba(14, 165, 233, 0.18),
+                inset 0 1px 1px rgba(255, 255, 255, 0.25);
+        }
+
+        .metallic-btn {
+            background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 50%, #cbd5e1 100%);
+            color: #070a0f;
+            box-shadow: 0 4px 15px rgba(148, 163, 184, 0.25), inset 0 1px 1px #ffffff;
+            transition: all 0.25s ease;
+        }
+
+        .metallic-btn:hover {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #e2e8f0 100%);
+            box-shadow: 0 6px 22px rgba(56, 189, 248, 0.4), inset 0 1px 2px #ffffff;
+            transform: translateY(-1px);
+        }
+
+        .metallic-btn-outline {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            transition: all 0.25s ease;
+        }
+
+        .metallic-btn-outline:hover {
+            border-color: #38bdf8;
+            color: #38bdf8;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        /* Active Main SPA Tab Styling */
+        .main-nav-tab {
+            position: relative;
+            transition: all 0.25s ease;
+        }
+        .main-nav-tab.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.18) 0%, rgba(30, 41, 59, 0.9) 100%);
+            border-color: rgba(56, 189, 248, 0.65);
+            color: #ffffff;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* SPA View Transition Animation */
+        @keyframes tabFadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .spa-view-active {
+            animation: tabFadeSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Circuit Grid Background Overlay */
+        .circuit-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+        }
+
+        /* Radar Sweep Animation for Fleet Sandbox */
+        @keyframes radarSweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .radar-sweep {
+            animation: radarSweep 4s linear infinite;
+            transform-origin: center;
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #1e293b;
+            height: 6px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffffff, #38bdf8);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+            border: 2px solid #0f172a;
+        }
+    </style>
+</head>
+<body class="circuit-bg min-h-screen flex flex-col justify-between pb-20 lg:pb-0 selection:bg-sky-500 selection:text-slate-950">
+
+    <!-- Top Notification / Status Bar -->
+    <div class="bg-slate-950/95 border-b border-slate-800/80 py-2 px-4 text-xs text-slate-300">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="font-bold text-white">منصة <strong class="text-sky-400 font-orbitron">SPACE LIGHT</strong> لدعم المشروعات الصغيرة والمتوسطة بالسوق المصري:</span>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 font-extrabold">حلول مجانية & إكسيل (0 - 5,000 ج.م)</span>
+                <span class="px-2 py-0.5 rounded bg-sky-500/20 border border-sky-400/40 text-sky-300 font-extrabold">الأنظمة المتكاملة (3,000 - 25,000 ج.م)</span>
+                <span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-amber-300 font-extrabold">اللوجو 150 - 300 ج.م (تسليم نفس اليوم)</span>
+                <span class="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-400/40 text-purple-300 font-extrabold">50 مستخدم مجاناً مدى الحياة</span>
+            </div>
+            <div class="flex items-center gap-3 font-inter text-[11px] text-slate-400">
+                <span class="hidden md:inline text-slate-300 font-bold">FOUNDER: MUHAMED ELHAMALAWY</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sticky SPA Header with Main Navigation Tabs -->
+    <header class="sticky top-0 z-50 bg-[#070a0f]/90 backdrop-blur-xl border-b border-slate-800/90 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+            
+            <!-- Brand Metallic Logo: SPACE LIGHT (Code </> + Rising Arrow) -->
+            <button onclick="switchMainTab('overview')" class="flex items-center gap-3 group text-right focus:outline-none shrink-0">
+                <div class="relative w-14 h-12 rounded-xl bg-gradient-to-br from-slate-800 via-slate-900 to-slate-950 p-1 border border-slate-600/60 shadow-lg group-hover:border-sky-400/70 transition flex items-center justify-center">
+                    <svg viewBox="0 0 120 100" class="w-full h-full drop-shadow-[0_2px_8px_rgba(56,189,248,0.35)]">
+                        <defs>
+                            <linearGradient id="silverMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff" />
+                                <stop offset="45%" stop-color="#cbd5e1" />
+                                <stop offset="75%" stop-color="#64748b" />
+                                <stop offset="100%" stop-color="#f8fafc" />
+                            </linearGradient>
+                            <linearGradient id="blueSteel" x1="0%" y1="100%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#1e3a8a" />
+                                <stop offset="50%" stop-color="#0284c7" />
+                                <stop offset="100%" stop-color="#7dd3fc" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Left Bracket '<' -->
+                        <path d="M40 24 L14 50 L40 76" fill="none" stroke="url(#silverMetal)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Right Bracket '>' -->
+                        <path d="M76 28 L102 52 L76 76" fill="none" stroke="url(#blueSteel)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                        <!-- Center Slash '/' -->
+                        <path d="M64 16 L46 86" fill="none" stroke="url(#silverMetal)" stroke-width="11" stroke-linecap="round"/>
+                        <!-- Dynamic Swoosh Rising Arrow -->
+                        <path d="M18 76 C35 86 68 58 104 18" fill="none" stroke="url(#silverMetal)" stroke-width="8" stroke-linecap="round"/>
+                        <path d="M85 18 L105 16 L101 35" fill="none" stroke="url(#silverMetal)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-1.5" dir="ltr">
+                        <span class="font-orbitron text-xl sm:text-2xl font-black tracking-wider metallic-text leading-none">SPACE</span>
+                        <span class="font-orbitron text-xl sm:text-2xl font-black tracking-wider metallic-cyan-text leading-none">LIGHT</span>
+                    </div>
+                    <span class="font-inter text-[9px] sm:text-[10px] tracking-[0.14em] text-slate-300 font-bold mt-1" dir="ltr">SOFTWARE & ENGINEERING SOLUTIONS</span>
+                </div>
+            </button>
+
+            <!-- 5 Interactive SPA Navigation Tabs (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
+                <button onclick="switchMainTab('overview')" id="nav-tab-overview" class="main-nav-tab active px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 border border-transparent flex items-center gap-1.5">
+                    <i class="fa-solid fa-house-laptop text-sky-400"></i>
+                    <span>1. الرئيسية</span>
+                </button>
+                <button onclick="switchMainTab('solutions')" id="nav-tab-solutions" class="main-nav-tab px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 border border-transparent flex items-center gap-1.5">
+                    <i class="fa-solid fa-cubes text-sky-400"></i>
+                    <span>2. الحلول وتصميم اللوجو</span>
+                </button>
+                <button onclick="switchMainTab('policy')" id="nav-tab-policy" class="main-nav-tab px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 border border-transparent flex items-center gap-1.5">
+                    <i class="fa-solid fa-scale-balanced text-amber-400"></i>
+                    <span>3. سياسة وميثاق الشركة</span>
+                </button>
+                <button onclick="switchMainTab('sandbox')" id="nav-tab-sandbox" class="main-nav-tab px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 border border-transparent flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    <i class="fa-solid fa-flask text-emerald-400"></i>
+                    <span>4. مختبر الأنظمة الحي</span>
+                </button>
+                <button onclick="switchMainTab('roi')" id="nav-tab-roi" class="main-nav-tab px-3.5 py-2.5 rounded-xl text-xs font-bold text-slate-300 border border-transparent flex items-center gap-1.5">
+                    <i class="fa-solid fa-calculator text-sky-400"></i>
+                    <span>5. حاسبة وطلب مشروع</span>
+                </button>
+            </nav>
+
+            <!-- Quick CTA Button -->
+            <div class="flex items-center gap-2 shrink-0">
+                <button onclick="switchMainTab('roi')" class="metallic-btn px-4 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm flex items-center gap-2">
+                    <span>احسب تكلفة مشروعك</span>
+                    <i class="fa-solid fa-bolt text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===================================================================== -->
+    <!-- MAIN SPA VIEWPORT CONTAINER (Compact, Tabbed, No Long Scrolling)       -->
+    <!-- ===================================================================== -->
+    <main class="flex-grow flex items-center py-6 sm:py-8 relative">
+        <!-- Ambient Metallic Glows -->
+        <div class="fixed top-1/4 right-10 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="fixed bottom-10 left-10 w-80 h-80 bg-slate-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+
+            <!-- ============================================================= -->
+            <!-- TAB 1: الرئيسية — التصميم العادي المنظم والواضح                 -->
+            <!-- ============================================================= -->
+            <section id="spa-view-overview" class="spa-view spa-view-active space-y-6">
+                
+                <!-- CLEAR & BOLD PRICING HIGHLIGHT BANNER -->
+                <div class="metallic-card rounded-3xl p-5 sm:p-6 border-2 border-sky-500/50 bg-gradient-to-r from-slate-900 via-[#0d1829] to-slate-900 shadow-2xl">
+                    <div class="grid md:grid-cols-4 gap-4 items-center text-center md:text-right">
+                        
+                        <!-- Box 1: Free & Excel Solutions (0 - 5,000 EGP) -->
+                        <div class="p-4 rounded-2xl bg-slate-950/90 border border-purple-500/40 flex flex-col justify-between h-full">
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-purple-300 text-xs font-extrabold mb-1">
+                                <i class="fa-solid fa-file-excel text-base"></i>
+                                <span>حلول الإكسيل ومبادرات مجانية</span>
+                            </div>
+                            <div class="text-xl sm:text-2xl font-black text-white font-orbitron my-1">
+                                0 <span class="text-sm font-cairo text-slate-300">(مجاناً)</span> — 5,000 <span class="text-xs font-cairo text-purple-400">ج.م</span>
+                            </div>
+                            <p class="text-[11px] text-slate-300">
+                                نقدم <strong class="text-emerald-300">حلولاً وأدوات مجانية تماماً</strong>، وبرمجة أو تحويل الإكسيل لتطبيق ذكي حتى 5,000 ج.م كحد أقصى.
+                            </p>
+                        </div>
+
+                        <!-- Box 2: Integrated Systems (3,000 - 25,000 EGP) -->
+                        <div class="p-4 rounded-2xl bg-slate-950/90 border border-sky-500/40 flex flex-col justify-between h-full">
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-sky-400 text-xs font-extrabold mb-1">
+                                <i class="fa-solid fa-microchip text-base"></i>
+                                <span>الأنظمة المتكاملة وتطبيقات الموبايل</span>
+                            </div>
+                            <div class="text-xl sm:text-2xl font-black text-white font-orbitron my-1">
+                                3,000 <span class="text-sm font-cairo text-slate-400">إلى</span> 25,000 <span class="text-xs font-cairo text-sky-400">ج.م</span>
+                            </div>
+                            <p class="text-[11px] text-amber-300 font-bold">
+                                * أقصى تكلفة لأي مشروع متكامل 25,000 ج.م (غير شامل الهاردوير إن تطلب المشروع).
+                            </p>
+                        </div>
+
+                        <!-- Box 3: 50 Free Users Forever -->
+                        <div class="p-4 rounded-2xl bg-slate-950/90 border border-emerald-500/40 flex flex-col justify-between h-full">
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-emerald-400 text-xs font-extrabold mb-1">
+                                <i class="fa-solid fa-users-gear text-base"></i>
+                                <span>هدية المشاريع متعددة المستخدمين</span>
+                            </div>
+                            <div class="text-xl sm:text-2xl font-black text-emerald-400 my-1">
+                                50 مستخدماً مجاناً مدى الحياة
+                            </div>
+                            <p class="text-[11px] text-slate-300">
+                                اشتراك شهري/سنوي بسيط يبدأ فقط من <strong class="text-white">المستخدم رقم 51</strong> حسب السيرفر وإمكانيات المشروع.
+                            </p>
+                        </div>
+
+                        <!-- Box 4: Logo Design 150-300 EGP Same Day -->
+                        <div class="p-4 rounded-2xl bg-slate-950/90 border border-amber-500/40 flex flex-col justify-between h-full">
+                            <div class="flex items-center justify-center md:justify-start gap-2 text-amber-400 text-xs font-extrabold mb-1">
+                                <i class="fa-solid fa-pen-nib text-base"></i>
+                                <span>تصميم اللوجو والشعار الاحترافي</span>
+                            </div>
+                            <div class="text-xl sm:text-2xl font-black text-amber-300 font-orbitron my-1">
+                                150 — 300 <span class="text-xs font-cairo">جنيه فقط</span>
+                            </div>
+                            <p class="text-[11px] text-emerald-300 font-extrabold">
+                                <i class="fa-solid fa-bolt ml-1"></i> استلام اللوجو في نفس اليوم بجودة عالية!
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Main Hero Grid -->
+                <div class="grid lg:grid-cols-12 gap-6 items-center">
+                    
+                    <!-- Right Column: Value Proposition + Brand Banner -->
+                    <div class="lg:col-span-7 space-y-4 text-right">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-sky-400 text-xs font-bold">
+                            <i class="fa-solid fa-brain"></i>
+                            <span>SPACE LIGHT — حلول ذكية بالذكاء الاصطناعي + أمان عالي + خبرة صناعية وتجارية</span>
+                        </div>
+
+                        <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black leading-tight">
+                            <span class="metallic-text block">مش مجرد برنامج..</span>
+                            <span class="metallic-cyan-text block mt-1">ده برنامج + خبرة هندسية وصناعية + ذكاء اصطناعي!</span>
+                        </h1>
+
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            في منصة <strong class="text-white font-orbitron">SPACE LIGHT</strong> بقيادة <strong class="text-sky-300">م. محمد الحملاوي</strong>، نخدم المشروعات الصغيرة والمتوسطة، المصانع، الصالات الرياضية والنوادي، المخازن، محلات الصيانة والموبايل، وشركات التوزيع في السوق المصري بأنظمة ذكية ومؤمنة وعقود موثقة.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap items-center gap-3 pt-1">
+                            <button onclick="switchMainTab('solutions')" class="metallic-btn px-6 py-3 rounded-xl font-black text-sm flex items-center gap-2">
+                                <span>استعرض الأنظمة والخدمات (12 خدمة)</span>
+                                <i class="fa-solid fa-arrow-left"></i>
+                            </button>
+                            <button onclick="switchMainTab('policy')" class="metallic-btn-outline px-5 py-3 rounded-xl font-bold text-sm text-amber-300 border-amber-500/40 flex items-center gap-2">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                                <span>سياسة وميثاق الشركة</span>
+                            </button>
+                            <button onclick="switchMainTab('sandbox')" class="metallic-btn-outline px-5 py-3 rounded-xl font-bold text-sm text-slate-200 flex items-center gap-2">
+                                <i class="fa-solid fa-flask text-emerald-400"></i>
+                                <span>جرب الأنظمة حية</span>
+                            </button>
+                        </div>
+
+                        <!-- Key Metrics Strip -->
+                        <div class="grid grid-cols-4 gap-2.5 pt-2">
+                            <div class="metallic-card p-3 rounded-2xl text-center">
+                                <div class="font-orbitron text-lg sm:text-xl font-black metallic-cyan-text">0 - 5K</div>
+                                <div class="text-[11px] text-slate-300 font-bold">حلول مجانية وإكسيل</div>
+                            </div>
+                            <div class="metallic-card p-3 rounded-2xl text-center">
+                                <div class="font-orbitron text-lg sm:text-xl font-black text-emerald-400">3K - 25K</div>
+                                <div class="text-[11px] text-slate-300 font-bold">الأنظمة المتكاملة</div>
+                            </div>
+                            <div class="metallic-card p-3 rounded-2xl text-center">
+                                <div class="font-orbitron text-lg sm:text-xl font-black text-amber-400">50 FREE</div>
+                                <div class="text-[11px] text-slate-300 font-bold">مستخدم مجاناً للأبد</div>
+                            </div>
+                            <div class="metallic-card p-3 rounded-2xl text-center">
+                                <div class="font-orbitron text-lg sm:text-xl font-black metallic-text">150-300</div>
+                                <div class="text-[11px] text-slate-300 font-bold">لوجو بنفس اليوم</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left Column: SPACE LIGHT Metallic Visual Identity Card & 4 Pillars Summary -->
+                    <div class="lg:col-span-5 space-y-3">
+                        
+                        <!-- SPACE LIGHT Official Metallic Logo Showcase Card -->
+                        <div class="metallic-card rounded-2xl p-5 border border-sky-500/40 bg-gradient-to-br from-[#0b1322] via-[#070a0f] to-[#0f1c30] relative overflow-hidden">
+                            <div class="flex items-center gap-4" dir="ltr">
+                                <div class="w-20 h-16 rounded-2xl bg-slate-950/90 border border-slate-700 p-2 flex items-center justify-center shrink-0 shadow-xl">
+                                    <svg viewBox="0 0 120 100" class="w-full h-full drop-shadow-[0_0_12px_rgba(56,189,248,0.45)]">
+                                        <path d="M40 24 L14 50 L40 76" fill="none" stroke="url(#silverMetal)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M76 28 L102 52 L76 76" fill="none" stroke="url(#blueSteel)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M64 16 L46 86" fill="none" stroke="url(#silverMetal)" stroke-width="11" stroke-linecap="round"/>
+                                        <path d="M18 76 C35 86 68 58 104 18" fill="none" stroke="url(#silverMetal)" stroke-width="8" stroke-linecap="round"/>
+                                        <path d="M85 18 L105 16 L101 35" fill="none" stroke="url(#silverMetal)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="font-orbitron text-2xl font-black tracking-wider leading-none">
+                                        <span class="metallic-text">SPACE </span><span class="metallic-cyan-text">LIGHT</span>
+                                    </div>
+                                    <div class="font-inter text-[10px] tracking-[0.18em] text-slate-300 font-bold mt-1.5">
+                                        SOFTWARE & ENGINEERING SOLUTIONS
+                                    </div>
+                                    <div class="text-[11px] font-cairo text-sky-400 font-bold mt-1" dir="rtl">
+                                        مؤسس المنصة: م. محمد الحملاوي (+19 عاماً خبرة)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4 Quick Interactive Category Cards -->
+                        <div onclick="openSolutionsWithFilter('industrial')" class="cursor-pointer metallic-card rounded-2xl p-3.5 border-r-4 border-r-sky-400 hover:translate-x-[-4px] transition flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
+                                    <i class="fa-solid fa-industry"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-white">1. الأنظمة الصناعية والـ SMEs (3,000 - 25,000 ج.م)</h3>
+                                    <p class="text-[11px] text-slate-400">استدعاء الصيانة Andon، الـ OEE، تخطيط الخامات، و50 مستخدماً مجاناً.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-sky-400 text-xs"></i>
+                        </div>
+
+                        <div onclick="openSolutionsWithFilter('business')" class="cursor-pointer metallic-card rounded-2xl p-3.5 border-r-4 border-r-cyan-400 hover:translate-x-[-4px] transition flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                                    <i class="fa-solid fa-dumbbell"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-white">2. أنظمة الجيم والنوادي، المخازن، الصيانة، والـ CRM</h3>
+                                    <p class="text-[11px] text-slate-400">حضور وانصراف، مخازن، محلات الصيانة والموبايل، وربط العميل بمقدم الخدمة.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-cyan-400 text-xs"></i>
+                        </div>
+
+                        <div onclick="openSolutionsWithFilter('mobility')" class="cursor-pointer metallic-card rounded-2xl p-3.5 border-r-4 border-r-emerald-400 hover:translate-x-[-4px] transition flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                                    <i class="fa-solid fa-satellite-dish"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-white">3. النقل الذكي والتتبع المتصل (موبايل + كمبيوتر)</h3>
+                                    <p class="text-[11px] text-slate-400">رادار الأساطيل (1 كم)، تتبع مناديب التوزيع والتحصيل بالـ GPS.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-emerald-400 text-xs"></i>
+                        </div>
+
+                        <div onclick="openSolutionsWithFilter('rapid')" class="cursor-pointer metallic-card rounded-2xl p-3.5 border-r-4 border-r-amber-400 hover:translate-x-[-4px] transition flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-white">4. حلول الإكسيل (0 - 5,000 ج.م) + اللوجو (150 - 300 ج.م)</h3>
+                                    <p class="text-[11px] text-slate-400">نقدم حلولاً مجانية تماماً، تحويل الإكسيل لتطبيق، وتصميم اللوجو بنفس اليوم.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-left text-amber-400 text-xs"></i>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================= -->
+            <!-- TAB 2: الحلول والخدمات وتصميم اللوجو (SOLUTIONS & LOGO CATALOG) -->
+            <!-- ============================================================= -->
+            <section id="spa-view-solutions" class="spa-view hidden space-y-6">
+                
+                <!-- Compact Header + Sub-Filter Bar -->
+                <div class="metallic-card rounded-2xl p-5 flex flex-col lg:flex-row items-center justify-between gap-4">
+                    <div>
+                        <span class="text-[11px] font-orbitron uppercase tracking-widest text-sky-400">SOLUTIONS & BRANDING CATALOG</span>
+                        <h2 class="text-xl sm:text-2xl font-black metallic-text">كتالوج الأنظمة الصناعية والتجارية وتطبيقات الموبايل واللوجو</h2>
+                        <p class="text-xs text-slate-300 mt-0.5">جميع الأنظمة متعددة المستخدمين تشمل <strong class="text-emerald-400">50 مستخدماً مجاناً مدى الحياة</strong>، مع إمكانية تقديم <strong class="text-purple-300">حلول مجانية</strong> وأنظمة إكسيل من 0 إلى 5,000 ج.م.</p>
+                    </div>
+
+                    <!-- Filter Pills -->
+                    <div class="flex flex-wrap justify-center gap-1.5">
+                        <button onclick="filterPillars('all')" id="pillar-btn-all" class="pillar-tab metallic-btn px-3 py-2 rounded-xl font-bold text-xs">
+                            الكل (12 خدمة)
+                        </button>
+                        <button onclick="filterPillars('business')" id="pillar-btn-business" class="pillar-tab metallic-btn-outline text-cyan-300 border-cyan-500/40 px-3 py-2 rounded-xl font-bold text-xs">
+                            <i class="fa-solid fa-store ml-1 text-cyan-400"></i> الجيم، النوادي، المخازن، الصيانة والـ CRM
+                        </button>
+                        <button onclick="filterPillars('industrial')" id="pillar-btn-industrial" class="pillar-tab metallic-btn-outline text-slate-300 px-3 py-2 rounded-xl font-bold text-xs">
+                            <i class="fa-solid fa-industry ml-1 text-sky-400"></i> الأنظمة الصناعية SMEs
+                        </button>
+                        <button onclick="filterPillars('mobility')" id="pillar-btn-mobility" class="pillar-tab metallic-btn-outline text-slate-300 px-3 py-2 rounded-xl font-bold text-xs">
+                            <i class="fa-solid fa-location-crosshairs ml-1 text-emerald-400"></i> النقل الذكي والتتبع
+                        </button>
+                        <button onclick="filterPillars('rapid')" id="pillar-btn-rapid" class="pillar-tab metallic-btn-outline text-purple-300 border-purple-500/40 px-3 py-2 rounded-xl font-bold text-xs">
+                            <i class="fa-solid fa-file-excel ml-1 text-purple-400"></i> الإكسيل وحلول مجانية (0 - 5,000 ج.م)
+                        </button>
+                        <button onclick="filterPillars('logo')" id="pillar-btn-logo" class="pillar-tab metallic-btn-outline text-amber-300 border-amber-500/40 px-3 py-2 rounded-xl font-bold text-xs">
+                            <i class="fa-solid fa-pen-nib ml-1 text-amber-400"></i> اللوجو (150-300 ج.م)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 12 Focused Solution Cards Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5" id="pillars-grid">
+                    
+                    <!-- Highlighted Card: Logo Design 150-300 EGP -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border-2 border-amber-500/50 bg-gradient-to-br from-slate-900 via-slate-950 to-amber-950/20" data-category="logo">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-extrabold px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40">تسليم في نفس اليوم!</span>
+                                <span class="font-orbitron text-sm font-black text-amber-400">150 - 300 EGP</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">تصميم اللوجو والشعار الاحترافي للشركات والأنشطة</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-4">
+                                نصمم لك شعاراً احترافياً (معدني عصري، صناعي، تجاري، أو كلاسيكي) يعبر عن هوية مشروعك بألوان متناسقة وجودة عالية للطباعة والسوشيال ميديا، بتكلفة رمزية <strong class="text-amber-300">من 150 إلى 300 جنيه فقط</strong> والتسليم في نفس اليوم.
+                            </p>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between gap-2">
+                            <button onclick="jumpToSandbox('logo')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-eye"></i>
+                                <span>معاينة ستايلات اللوجو</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('باقة تصميم اللوجو والشعار (150 - 300 ج.م - تسليم نفس اليوم)')" class="metallic-btn px-3 py-1.5 rounded-lg text-xs font-extrabold">
+                                اطلب اللوجو الآن
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- NEW Commercial Card 1: Gym & Social Clubs System (Mobile + Control Screen) -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border border-cyan-500/40" data-category="business">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">الصالات الرياضية والنوادي</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">نظام الموبايل وشاشة التحكم للصالات الرياضية (Gym) والنوادي الاجتماعية</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                تطبيق موبايل للأعضاء والمدربين متصل بشاشة تحكم للإدارة؛ يشمل إدارة الاشتراكات والتجديد، بوابات الدخول بالـ QR Code، جداول التمارين، الحجوزات، ومتابعة الحسابات.
+                            </p>
+                            <div class="text-xs font-bold text-cyan-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م حسب حجم النادي والمزايا
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-emerald-400 font-bold"><i class="fa-solid fa-mobile-screen ml-1"></i>موبايل + شاشة تحكم</span>
+                            <button onclick="selectServiceAndOrder('نظام موبايل وشاشة تحكم للصالات الرياضية والنوادي الاجتماعية')" class="metallic-btn px-3 py-1.5 rounded-lg text-xs font-extrabold">طلب عرض سعر</button>
+                        </div>
+                    </div>
+
+                    <!-- NEW Commercial Card 2: CRM & Connecting Client with Service Provider -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border border-cyan-500/40" data-category="business">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">إدارة العملاء وتطبيقات الربط</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">نظام خدمة إدارة العملاء (CRM) وتطبيقات ربط العميل بمقدم الخدمة</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                تطبيقات موبايل وويب لكافة الأنشطة لربط العميل بمقدم الخدمة مباشرة (حجز مواعيد، طلبات صيانة، تقييم الخدمة، إشعارات لحظية، سجل تعاملات العميل، ومتابعة المبيعات).
+                            </p>
+                            <div class="text-xs font-bold text-cyan-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م (شامل 50 مستخدماً مجاناً مدى الحياة)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-sky-300 font-bold"><i class="fa-solid fa-handshake-angle ml-1"></i>ربط لحظي للعملاء</span>
+                            <button onclick="selectServiceAndOrder('نظام إدارة العملاء CRM وتطبيق ربط العميل بمقدم الخدمة')" class="metallic-btn px-3 py-1.5 rounded-lg text-xs font-extrabold">طلب عرض سعر</button>
+                        </div>
+                    </div>
+
+                    <!-- NEW Commercial Card 3: Employee Time & Attendance System -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border border-cyan-500/40" data-category="business">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">الموارد البشرية والشركات</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">نظام الحضور والانصراف الذكي للموظفين (موبايل + كمبيوتر)</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                تسجيل حضور وانصراف الموظفين عبر الموبايل بالبصمة الجغرافية (GPS / Wi-Fi / QR) أو الربط بأجهزة البصمة، مع حساب автоматиكي للورديات، الإضافي، التأخيرات، والرواتب.
+                            </p>
+                            <div class="text-xs font-bold text-cyan-300 mb-3">
+                                التكلفة: من 3,000 إلى 15,000 ج.م (غير شامل الهاردوير إن تطلب)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-emerald-400 font-bold"><i class="fa-solid fa-user-clock ml-1"></i>حساب ورديات ورواتب</span>
+                            <button onclick="selectServiceAndOrder('نظام حضور وانصراف الموظفين الذكي')" class="metallic-btn px-3 py-1.5 rounded-lg text-xs font-extrabold">طلب عرض سعر</button>
+                        </div>
+                    </div>
+
+                    <!-- NEW Commercial Card 4: Warehouse & Inventory Management for SMEs -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border border-cyan-500/40" data-category="business">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">إدارة المخازن والأصناف</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">نظام إدارة المخازن للأنشطة الصغيرة والمتوسطة (Barcode & Cloud)</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                متابعة دقيقة للوارد والمنصرف والمرتجعات، جرد المخازن بالباركود من الموبايل أو الكمبيوتر، تنبيهات الحد الأدنى للأصناف، وتقارير أرباح وحركة الأصناف.
+                            </p>
+                            <div class="text-xs font-bold text-cyan-300 mb-3">
+                                التكلفة: من 3,000 إلى 18,000 ج.م (شامل 50 مستخدماً مجاناً مدى الحياة)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-sky-300 font-bold"><i class="fa-solid fa-boxes-stacked ml-1"></i>يدعم الباركود والفروع</span>
+                            <button onclick="selectServiceAndOrder('نظام إدارة المخازن للأنشطة الصغيرة والمتوسطة')" class="metallic-btn px-3 py-1.5 rounded-lg text-xs font-extrabold">طلب عرض سعر</button>
+                        </div>
+                    </div>
+
+                    <!-- NEW Commercial Card 5: Mobile & Maintenance Shops Management -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border border-cyan-500/40" data-category="business">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">محلات الصيانة والموبايل</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">نظام إدارة محلات الصيانة والموبايل ومراكز الخدمة الفنية</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                استلام أجهزة الصيانة بباركود وإيصال رقمي، تتبع حالة الجهاز (قيد الفحص، تم الإصلاح، جاهز للتسليم) مع إشعار العميل تلقائياً، وإدارة قطع الغيار والمبيعات والضمان.
+                            </p>
+                            <div class="text-xs font-bold text-cyan-300 mb-3">
+                                التكلفة: من 3,000 إلى 15,000 ج.م (شامل تطبيق وموقع تتبع للعميل)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <span class="text-[11px] text-amber-300 font-bold"><i class="fa-solid fa-screwdriver-wrench ml-1"></i>تتبع الصيانة وقطع الغيار</span>
+                            <button onclick="selectServiceAndOrder('نظام إدارة محلات الصيانة والموبايل ومراكز الخدمة')" class="metallic-btn px-3 py-1.5 rounded-lg text-xs font-extrabold">طلب عرض سعر</button>
+                        </div>
+                    </div>
+
+                    <!-- Card: Excel Solutions (0 to 5000 EGP) & Free Community Tools -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between border-2 border-purple-500/50" data-category="rapid">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/40">حلول الإكسيل والمبادرات المجانية</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400">من 0 (مجاناً) إلى 5,000 ج.م</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">برمجة أنظمة الإكسيل المتقدمة وتحويلها لتطبيقات + حلول مجانية</h3>
+                            <p class="text-slate-300 text-xs leading-relaxed mb-3">
+                                نقدم <strong class="text-emerald-300">حلولاً وأدوات مجانية تماماً (0 ج.م)</strong> للأنشطة الناشئة البسيطة، كما نصمم شيتات إكسيل احترافية مؤتمتة أو نحول شيتات الإكسيل المعقدة إلى تطبيق ذكي ومؤمن بتكلفة من <strong class="text-purple-300">صفر حتى 5,000 جنيه كحد أقصى</strong>.
+                            </p>
+                            <div class="text-xs font-bold text-purple-300 mb-3">
+                                التكلفة: من 0 ج.م (مجاناً) إلى 5,000 ج.م فقط
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <button onclick="jumpToSandbox('mrp')" class="px-3 py-1.5 rounded-lg bg-purple-500/15 hover:bg-purple-500/30 text-purple-300 border border-purple-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>جرب محول الإكسيل</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('حلول الإكسيل أو طلب أداة مجانية (من 0 إلى 5,000 ج.م)')" class="text-xs font-bold text-slate-300 hover:text-white underline">اطلب الآن</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 1: Smart Andon -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between" data-category="industrial">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">الأنظمة الصناعية SMEs</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">استدعاء ودعم خطوط الإنتاج اللحظي (Smart Andon & Tooling)</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed mb-3">
+                                يربط المشغل بفرق الصيانة، الجودة، والـ Tooling بضغطة زر مع تنبيهات صوتية وحساب دقيق لوقت التوقف (Downtime) وتحليل الأعطال بالذكاء الاصطناعي.
+                            </p>
+                            <div class="text-xs font-bold text-sky-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م (غير شامل الهاردوير)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <button onclick="jumpToSandbox('andon')" class="px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>جرب في المختبر</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('نظام الأندون واستدعاء الصيانة والـ OEE (شامل 50 مستخدم مجاناً)')" class="text-xs font-bold text-slate-300 hover:text-white underline">طلب عرض سعر موثق</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: Live OEE & Time Study -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between" data-category="industrial">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">الأنظمة الصناعية SMEs</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">مراقبة الأداء ودراسات الوقت القياسي (Live OEE & Time Study)</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed mb-3">
+                                أداة رقمية للمهندسين لقياس الأزمنة القياسية (Cycle Time) في صالة الإنتاج، وحساب مؤشرات الـ OEE والـ TEEP وجودة الـ PPM لحظياً بأعلى أمان للبيانات.
+                            </p>
+                            <div class="text-xs font-bold text-sky-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م (غير شامل الهاردوير)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <button onclick="jumpToSandbox('andon')" class="px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>جرب في المختبر</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('نظام قياس الـ OEE ودراسات الوقت (شامل 50 مستخدم مجاناً)')" class="text-xs font-bold text-slate-300 hover:text-white underline">طلب عرض سعر موثق</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Smart MRP & SAP Bridge -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between" data-category="industrial">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-sky-500/10 text-sky-400 border border-sky-500/20">الأنظمة الصناعية SMEs</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">محرك تخطيط الخامات والمخزون الذكي (Smart AI MRP)</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed mb-3">
+                                يحول خطة المبيعات والإنتاج إلى احتياجات خامات دقيقة (BOM)، يكشف النواقص مبكراً بالذكاء الاصطناعي، ويتكامل مع مخرجات SAP.
+                            </p>
+                            <div class="text-xs font-bold text-sky-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م (غير شامل الهاردوير)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <button onclick="jumpToSandbox('mrp')" class="px-3 py-1.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>جرب في المختبر</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('نظام تخطيط الخامات والمخزون الذكي MRP (شامل 50 مستخدم مجاناً)')" class="text-xs font-bold text-slate-300 hover:text-white underline">طلب عرض سعر موثق</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Ride-Hailing & 1km Radar Dispatch -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between" data-category="mobility">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">النقل والتتبع المتصل</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">منصة إدارة الأساطيل والنقل الذكي بالرادار (PC + Mobile)</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed mb-3">
+                                نظام متكامل يربط تطبيق العميل وتطبيق الكابتن بلوحة تحكم للكمبيوتر؛ يدعم رادار النطاق الجغرافي (1 كم)، توجيه أقرب مركبة، وحساب الأجرة والكاش.
+                            </p>
+                            <div class="text-xs font-bold text-emerald-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م (شامل 50 مستخدم مجاناً)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <button onclick="jumpToSandbox('fleet')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>جرب في المختبر</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('منصة النقل الذكي وإدارة الأسطول (شامل 50 مستخدم مجاناً)')" class="text-xs font-bold text-slate-300 hover:text-white underline">طلب عرض سعر موثق</button>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: B2B Distribution & GPS Verification -->
+                    <div class="pillar-item metallic-card rounded-2xl p-5 flex flex-col justify-between" data-category="mobility">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">النقل والتتبع المتصل</span>
+                                <span class="text-[11px] font-extrabold text-emerald-400"><i class="fa-solid fa-users ml-1"></i>50 مستخدم مجاناً</span>
+                            </div>
+                            <h3 class="text-base font-extrabold text-white mb-2">تتبع مناديب التوزيع والتحصيل الميداني (GPS Proof)</h3>
+                            <p class="text-slate-400 text-xs leading-relaxed mb-3">
+                                يتيح للإدارة على الكمبيوتر رؤية خط سير المناديب والفنيين لحظياً، وتأكيد تسليم الفواتير والتحصيل النقدي بالبصمة الجغرافية المؤمنة.
+                            </p>
+                            <div class="text-xs font-bold text-emerald-300 mb-3">
+                                التكلفة: من 3,000 إلى 25,000 ج.م (شامل 50 مستخدم مجاناً مدى الحياة)
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+                            <button onclick="jumpToSandbox('fleet')" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-flask"></i>
+                                <span>جرب في المختبر</span>
+                            </button>
+                            <button onclick="selectServiceAndOrder('نظام تتبع مناديب التوزيع والتحصيل (شامل 50 مستخدم مجاناً)')" class="text-xs font-bold text-slate-300 hover:text-white underline">طلب عرض سعر موثق</button>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================================================= -->
+            <!-- TAB 3: سياسة وميثاق الشركة (COMPANY POLICY & ETHICS TAB)        -->
+            <!-- ============================================================= -->
+            <section id="spa-view-policy" class="spa-view hidden space-y-6">
+                
+                <!-- Policy Hero Banner (Professional Title without Religious Trading Slogan in Title) -->
+                <div class="metallic-card rounded-3xl p-6 sm:p-8 border-2 border-sky-500/40 relative overflow-hidden">
+                    <div class="max-w-4xl space-y-3">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/15 border border-sky-400/40 text-sky-300 text-xs font-extrabold">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                            <span>الميثاق المهني وسياسة التسعير العادل — شركة SPACE LIGHT (م. محمد الحملاوي)</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-black text-white leading-tight">
+                            سياسة الشركة: <span class="metallic-cyan-text">شفافية كاملة، تجارة نظيفة، وحلول عملية تخدم المجتمع</span>
+                        </h2>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            تأسست شركة <strong class="text-white font-orbitron">SPACE LIGHT</strong> لهدف واضح ومباشر: <strong class="text-sky-300">خدمة المجتمع المصري ودعم الأنشطة التجارية والصناعية والخدمية الصغيرة والمتوسطة (SMEs)</strong>. نحن نؤمن بأن النجاح الحقيقي يقوم على الأمانة والمصداقية وتقديم خبرة حقيقية بمقابل عادل وموثق يفتح أبواب رزق ويطور الأعمال دون أي مغالاة.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 6 Core Policy Pillars Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    
+                    <!-- Pillar 1: Community & SMEs -->
+                    <div class="metallic-card rounded-2xl p-6 space-y-3 border-t-4 border-t-sky-400">
+                        <div class="w-11 h-11 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 text-lg">
+                            <i class="fa-solid fa-building-shield"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white">1. خدمة المجتمع والأنشطة الصغيرة والمتوسطة</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            ندعم المصانع، الشركات، المخازن، الصالات الرياضية والنوادي، ومحلات الصيانة والموبايل في السوق المصري لامتلاك أنظمة ذكية وتطبيقات موبايل تربطهم بعملائهم بتكلفة في المتناول، كما نقدم <strong class="text-emerald-300">حلولاً مجانية تماماً</strong> للحالات والأنشطة البسيطة.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 2: Clean Business & Ethics -->
+                    <div class="metallic-card rounded-2xl p-6 space-y-3 border-t-4 border-t-amber-400">
+                        <div class="w-11 h-11 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 text-lg">
+                            <i class="fa-solid fa-hand-holding-heart"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white">2. تجارة نظيفة وأمانة مهنية</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            منطلقنا الأخلاقي هو مراعاة الضمير والأمانة في كل سطر كود وكل اتفاق مالي؛ هدفنا من الآخر <strong class="text-amber-300">تجارة نظيفة</strong> نبيع فيها خبرة صناعية وبرمجية بمقابل مادي عادل بدون أي تعدٍ على العميل أو استغلال لحاجته التقنية.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 3: Fair Cost + Small Margin for Expansion & Jobs -->
+                    <div class="metallic-card rounded-2xl p-6 space-y-3 border-t-4 border-t-emerald-400">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-lg">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white">3. هامش ربح بسيط للتوسع وفتح أبواب رزق</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            أسعارنا متوسطة ومدروسة لتغطية التكاليف التشغيلية + <strong class="text-emerald-300">هامش ربح صغير</strong>؛ لأن هدفنا الأساسي هو الانتشار والتوسع المستدام لفتح أبواب رزق لمهندسين وشباب وعمال كثيرين في مصر.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 4: Written & Documented Contracts -->
+                    <div class="metallic-card rounded-2xl p-6 space-y-3 border-t-4 border-t-purple-400">
+                        <div class="w-11 h-11 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 text-lg">
+                            <i class="fa-solid fa-file-signature"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white">4. عقود مكتوبة وموثقة 100%</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            كل المعاملات المادية، مراحل التنفيذ، والخدمات المتفق عليها تكون <strong class="text-white">مكتوبة وموثقة رسمياً بين الشركة والعميل</strong> بتكاليف واضحة ومحددة من اليوم الأول دون أي رسوم مخفية.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 5: Software + Industrial Expertise + AI + Security -->
+                    <div class="metallic-card rounded-2xl p-6 space-y-3 border-t-4 border-t-cyan-400">
+                        <div class="w-11 h-11 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-lg">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white">5. برنامج + خبرة صناعية + ذكاء اصطناعي وأمان</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            ما نقدمه ليس مجرد برنامج تقليدي، بل هو <strong class="text-cyan-300">نظام مدمج بخبرة صناعية وإدارية عملية (+19 عاماً)</strong> مع تقنيات الذكاء الاصطناعي (AI) وأعلى معايير الأمان لحماية بيانات مشروعك وعملائك.
+                        </p>
+                    </div>
+
+                    <!-- Pillar 6: Clear Price Caps & 50 Free Users -->
+                    <div class="metallic-card rounded-2xl p-6 space-y-3 border-t-4 border-t-rose-400">
+                        <div class="w-11 h-11 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center justify-center text-rose-400 text-lg">
+                            <i class="fa-solid fa-tags"></i>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-white">6. التزام واضح بالأسعار و50 مستخدماً مجاناً</h3>
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                            الإكسيل والحلول السريعة من <strong class="text-purple-300">صفر (مجاناً) إلى 5,000 ج.م</strong>، والأنظمة المتكاملة من <strong class="text-white">3,000 إلى 25,000 ج.م كحد أقصى</strong> (غير شامل الهاردوير)، مع <strong class="text-emerald-300">50 مستخدماً مجاناً مدى الحياة</strong>، واللوجو من <strong class="text-amber-300">150 إلى 300 ج.م</strong> في نفس اليوم.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Summary Covenant Table -->
+                <div class="metallic-card rounded-2xl p-5 sm:p-6 border border-slate-700">
+                    <h3 class="text-base sm:text-lg font-black text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check text-emerald-400"></i>
+                        <span>جدول تقسيم الأسعار الواضح والموثق أمام العميل:</span>
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right text-xs sm:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-900/90 text-sky-300 border-b border-slate-700">
+                                    <th class="p-3 font-extrabold">البند / الخدمة</th>
+                                    <th class="p-3 font-extrabold">التكلفة الموثقة (جنيه مصري)</th>
+                                    <th class="p-3 font-extrabold">مدة التسليم والمزايا المضمنة</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800 text-slate-200">
+                                <tr>
+                                    <td class="p-3 font-bold text-emerald-300"><i class="fa-solid fa-gift ml-1.5"></i> حلول وأدوات مجانية لدعم الأنشطة الناشئة</td>
+                                    <td class="p-3 font-orbitron font-black text-emerald-400">0 EGP (مجاناً تماماً)</td>
+                                    <td class="p-3">أدوات مساعدة، نماذج جاهزة، واستشارات تقنية مجانية لخدمة المجتمع وصغار المستثمرين.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-purple-300"><i class="fa-solid fa-file-excel ml-1.5"></i> أنظمة الإكسيل المتقدمة وتحويل الإكسيل لتطبيق</td>
+                                    <td class="p-3 font-orbitron font-black text-purple-400">من 0 إلى 5,000 EGP</td>
+                                    <td class="p-3">برمجة شيتات الإكسيل أو تحويلها لتطبيق ذكي خلال 72 ساعة + أمان وصلاحيات.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-amber-300"><i class="fa-solid fa-pen-nib ml-1.5"></i> تصميم اللوجو والشعار الاحترافي</td>
+                                    <td class="p-3 font-orbitron font-black text-amber-400">150 - 300 EGP</td>
+                                    <td class="p-3">تسليم فوري <strong>في نفس اليوم</strong> بجودة عالية للطباعة والمنصات الرقمية.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-sky-300"><i class="fa-solid fa-laptop-code ml-1.5"></i> الأنظمة الصناعية والتجارية وتطبيقات الموبايل المتكاملة</td>
+                                    <td class="p-3 font-orbitron font-black text-sky-400">من 3,000 إلى 25,000 EGP كحد أقصى</td>
+                                    <td class="p-3">تشمل أنظمة المصانع، الجيم والنوادي، المخازن، الصيانة والموبايل، الحضور والانصراف، CRM، والنقل الذكي (غير شامل الهاردوير) + <strong>50 مستخدماً مجاناً مدى الحياة</strong>.</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-3 font-bold text-cyan-300"><i class="fa-solid fa-server ml-1.5"></i> سياسة المستخدمين والسيرفرات</td>
+                                    <td class="p-3 font-bold text-emerald-400">أول 50 مستخدماً: مجاناً مدى الحياة (0 ج.م)</td>
+                                    <td class="p-3">يبدأ الاشتراك الشهري أو السنوي فقط من <strong>المستخدم رقم 51</strong> فأكثر حسب السيرفر وإمكانيات المشروع.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================= -->
+            <!-- TAB 4: مختبر الأنظمة الحي (INTERACTIVE LIVE SANDBOX)          -->
+            <!-- ============================================================= -->
+            <section id="spa-view-sandbox" class="spa-view hidden space-y-5">
+                
+                <!-- Top Sandbox Switcher Header -->
+                <div class="metallic-card rounded-2xl p-4 sm:p-5 flex flex-col lg:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+                            <i class="fa-solid fa-flask text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg sm:text-xl font-black metallic-text">مختبر الأنظمة التفاعلي ومعرض اللوجو (4-in-1 Live Sandbox)</h2>
+                            <p class="text-xs text-slate-400">جرب بنفسك كيف تندمج الخبرة الصناعية والذكاء الاصطناعي في أنظمتنا قبل التعاقد.</p>
+                        </div>
+                    </div>
+
+                    <!-- 4 Simulator Sub-Tabs -->
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <button onclick="switchSandboxTab('andon')" id="tab-btn-andon" class="metallic-btn px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-industry"></i>
+                            <span>أ. محاكي الخطوط والـ OEE</span>
+                        </button>
+                        <button onclick="switchSandboxTab('fleet')" id="tab-btn-fleet" class="metallic-btn-outline text-slate-300 px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-satellite-dish"></i>
+                            <span>ب. رادار الأسطول (1 كم)</span>
+                        </button>
+                        <button onclick="switchSandboxTab('mrp')" id="tab-btn-mrp" class="metallic-btn-outline text-slate-300 px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-file-csv"></i>
+                            <span>ج. محول الإكسيل بالـ AI</span>
+                        </button>
+                        <button onclick="switchSandboxTab('logo')" id="tab-btn-logo" class="metallic-btn-outline text-amber-300 border-amber-500/40 px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5">
+                            <i class="fa-solid fa-pen-nib"></i>
+                            <span>د. محاكي اللوجو الفوري (150-300 ج.م)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR CONTAINER BOX -->
+                <div class="metallic-card rounded-3xl p-5 sm:p-7 border border-slate-700/80">
+                    
+                    <!-- SIMULATOR A: INDUSTRIAL ANDON, OEE & PPM -->
+                    <div id="sandbox-andon" class="sandbox-panel space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-microchip text-sky-400"></i>
+                                    <span>لوحة تحكم صالة الإنتاج اللحظية (Smart Andon, OEE & AI Diagnostics)</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-0.5">اضغط على "إبلاغ عطل / طلب Tooling" على أي خط لترى كيف يعمل التنبيه اللحظي، عداد التوقف، وتوجيه الفنيين.</p>
+                            </div>
+                            <!-- Live Gauges Strip -->
+                            <div class="flex items-center gap-4 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-700">
+                                <div class="text-center">
+                                    <div class="text-[10px] font-inter text-slate-400">LIVE OEE</div>
+                                    <div id="live-oee-value" class="font-orbitron text-lg font-black text-emerald-400">88.5%</div>
+                                </div>
+                                <div class="h-7 w-px bg-slate-700"></div>
+                                <div class="text-center">
+                                    <div class="text-[10px] font-inter text-slate-400">QUALITY PPM</div>
+                                    <div id="live-ppm-value" class="font-orbitron text-lg font-black text-sky-400">120</div>
+                                </div>
+                                <div class="h-7 w-px bg-slate-700"></div>
+                                <div class="text-center">
+                                    <div class="text-[10px] font-inter text-slate-400">ACTIVE CALLS</div>
+                                    <div id="active-alerts-count" class="font-orbitron text-lg font-black text-amber-400">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4 Production Lines Grid -->
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="andon-lines-container"></div>
+
+                        <!-- Live Event Log Bar -->
+                        <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 text-xs">
+                                <span class="px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 font-orbitron">AI SYSTEM LOG</span>
+                                <span id="andon-log-text" class="text-slate-300">جميع خطوط الإنتاج تعمل بالكفاءة القياسية. (النظام يشمل 50 مستخدماً مجاناً مدى الحياة).</span>
+                            </div>
+                            <button onclick="resetAndonDemo()" class="text-xs text-slate-400 hover:text-white underline">إعادة ضبط المحاكي</button>
+                        </div>
+                    </div>
+
+                    <!-- SIMULATOR B: FLEET RADAR 1KM DISPATCH -->
+                    <div id="sandbox-fleet" class="sandbox-panel hidden space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-satellite-dish text-emerald-400"></i>
+                                    <span>رادار توجيه الأسطول والنقل الذكي (1km Radius Geo-Radar)</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-0.5">يحاكي نظام البحث في نطاق 1 كم عن أقرب كابتن/مندوب، وحساب المسافة والأجرة النقدية لحظياً.</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="triggerFleetDispatch()" class="metallic-btn px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-2">
+                                    <i class="fa-solid fa-location-arrow text-sky-700"></i>
+                                    <span>إرسال طلب رحلة / مهمة في النطاق</span>
+                                </button>
+                                <button onclick="resetFleetRadar()" class="metallic-btn-outline px-3 py-2 rounded-xl text-xs text-slate-300">
+                                    إعادة ضبط
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid lg:grid-cols-12 gap-6 items-center">
+                            <!-- Interactive Radar Screen -->
+                            <div class="lg:col-span-7 bg-[#060d18] rounded-2xl p-4 border border-slate-800 relative h-72 flex items-center justify-center overflow-hidden">
+                                <div class="w-60 h-60 rounded-full border border-sky-500/20 flex items-center justify-center relative">
+                                    <div class="w-40 h-40 rounded-full border border-sky-500/30 flex items-center justify-center">
+                                        <div class="w-20 h-20 rounded-full border border-emerald-500/40 bg-emerald-500/5 flex items-center justify-center">
+                                            <div class="w-4 h-4 rounded-full bg-sky-400 shadow-[0_0_15px_#38bdf8] relative z-20" title="موقع العميل"></div>
+                                        </div>
+                                    </div>
+                                    <div class="absolute inset-0 rounded-full radar-sweep pointer-events-none" style="background: conic-gradient(from 0deg, rgba(56, 189, 248, 0.22) 0deg, transparent 70deg);"></div>
+
+                                    <!-- Simulated Vehicles -->
+                                    <div id="fleet-unit-1" class="absolute top-10 right-14 px-2 py-0.5 rounded bg-slate-900/90 border border-emerald-400/60 text-[10px] text-emerald-300 flex items-center gap-1 transition-all duration-700">
+                                        <i class="fa-solid fa-car-side"></i> <span>كابتن #104 (0.4 كم)</span>
+                                    </div>
+                                    <div id="fleet-unit-2" class="absolute bottom-12 right-8 px-2 py-0.5 rounded bg-slate-900/90 border border-sky-400/60 text-[10px] text-sky-300 flex items-center gap-1 transition-all duration-700">
+                                        <i class="fa-solid fa-truck"></i> <span>مندوب #209 (0.8 كم)</span>
+                                    </div>
+                                    <div id="fleet-unit-3" class="absolute top-16 left-6 px-2 py-0.5 rounded bg-slate-900/90 border border-slate-600 text-[10px] text-slate-400 flex items-center gap-1 transition-all duration-700">
+                                        <i class="fa-solid fa-car-side"></i> <span>وحدة #312 (1.6 كم - خارج النطاق)</span>
+                                    </div>
+                                </div>
+                                <div class="absolute bottom-2.5 right-4 text-[11px] font-inter text-slate-400">
+                                    RADAR LOCK: <span class="text-sky-400 font-bold">1.0 KM RADIUS</span>
+                                </div>
+                            </div>
+
+                            <!-- Dispatch Details & Cash Wallet Panel -->
+                            <div class="lg:col-span-5 space-y-3">
+                                <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+                                    <div class="text-xs font-bold text-sky-400">حالة المطابقة والتوجيه اللحظي (Real-Time Match)</div>
+                                    <div id="fleet-match-status" class="text-xs sm:text-sm font-bold text-white">
+                                        اضغط على زر "إرسال طلب رحلة" لمسح النطاق الجغرافي وتوجيه أقرب كابتن...
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2.5 pt-1">
+                                        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                                            <div class="text-[10px] text-slate-400">أقرب وحدة مطابقة</div>
+                                            <div id="fleet-matched-driver" class="font-bold text-emerald-400 text-xs sm:text-sm mt-0.5">—</div>
+                                        </div>
+                                        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                                            <div class="text-[10px] text-slate-400">زمن الوصول المتوقع</div>
+                                            <div id="fleet-eta" class="font-bold text-sky-300 text-xs sm:text-sm mt-0.5">—</div>
+                                        </div>
+                                        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                                            <div class="text-[10px] text-slate-400">التسعيرة النقدية (Cash)</div>
+                                            <div id="fleet-fare" class="font-bold text-white text-xs sm:text-sm mt-0.5">—</div>
+                                        </div>
+                                        <div class="p-3 rounded-xl bg-slate-950 border border-slate-800">
+                                            <div class="text-[10px] text-slate-400">صلاحيات المستخدمين</div>
+                                            <div class="font-bold text-emerald-400 text-xs mt-1"><i class="fa-solid fa-check-circle ml-1"></i> 50 مستخدم مجاناً</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SIMULATOR C: RAPID EXCEL / SAP EXPORT TO CLOUD APP CONVERTER -->
+                    <div id="sandbox-mrp" class="sandbox-panel hidden space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+                                    <span>محول شيتات الإكسيل ومخرجات SAP إلى تطبيق ذكي مدعوم بالـ AI (تبدأ من 3,000 ج.م)</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-0.5">اضغط على زر التحويل لترى كيف نحول جدول البيانات الخام إلى لوحة تخطيط خامات وتنبيه نواقص تفاعلية ومؤمنة.</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="toggleExcelConversion()" id="excel-convert-btn" class="metallic-btn px-4 py-2 rounded-xl font-extrabold text-xs flex items-center gap-2">
+                                    <i class="fa-solid fa-bolt text-sky-700"></i>
+                                    <span>تحويل شيت الإكسيل الخام إلى تطبيق ذكي الآن</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- STEP 1: Raw Messy Spreadsheet View -->
+                        <div id="raw-excel-view" class="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                            <div class="flex items-center justify-between text-xs text-amber-300">
+                                <span><i class="fa-solid fa-file-excel ml-1"></i> شكل البيانات قبل SPACE LIGHT: شيت إكسيل تقليدي معرض للخطأ اليدوي وبدون تنبيهات لحظية</span>
+                                <span class="font-mono text-[11px] text-slate-400"> Production_Sheet_v4_FINAL.xlsx</span>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs font-mono text-slate-400 border-collapse border border-slate-800">
+                                    <thead>
+                                        <tr class="bg-slate-900 text-slate-300">
+                                            <th class="border border-slate-800 p-2">A (Code)</th>
+                                            <th class="border border-slate-800 p-2">B (Material Name)</th>
+                                            <th class="border border-slate-800 p-2">C (BOM/Unit)</th>
+                                            <th class="border border-slate-800 p-2">D (Stock)</th>
+                                            <th class="border border-slate-800 p-2">E (Formula Error/Status)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="border border-slate-800 p-2">RM-101</td>
+                                            <td class="border border-slate-800 p-2">شرائح صاج معالج 1.5 مم</td>
+                                            <td class="border border-slate-800 p-2">2.0 KG</td>
+                                            <td class="border border-slate-800 p-2">1200</td>
+                                            <td class="border border-slate-800 p-2 text-rose-400">#REF! (Manual Calc)</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-slate-800 p-2">RM-204</td>
+                                            <td class="border border-slate-800 p-2">مكونات تثبيت وربط قياسية</td>
+                                            <td class="border border-slate-800 p-2">4.0 PCS</td>
+                                            <td class="border border-slate-800 p-2">1600</td>
+                                            <td class="border border-slate-800 p-2 text-amber-400">Unverified Stock</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="border border-slate-800 p-2">RM-309</td>
+                                            <td class="border border-slate-800 p-2">عبوات تغليف صناعي مقوى</td>
+                                            <td class="border border-slate-800 p-2">1.0 BOX</td>
+                                            <td class="border border-slate-800 p-2">650</td>
+                                            <td class="border border-slate-800 p-2 text-slate-400">Pending Check</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- STEP 2: Converted Smart Cloud App View -->
+                        <div id="converted-app-view" class="space-y-4">
+                            <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/90 p-3.5 rounded-xl border border-emerald-500/30">
+                                <div class="flex items-center gap-2 text-xs font-bold text-emerald-400">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                    <span>واجهة التطبيق الذكي (محمية بصلاحيات + حساب MRP آلي + تنبيه عجز فوري):</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <label class="text-xs text-slate-300 font-bold">أدخل كمية أمر الشغل المطلوب:</label>
+                                    <input type="number" id="mrp-order-qty" value="500" min="100" max="5000" step="50" onchange="calculateSmartMRP()" onkeyup="calculateSmartMRP()" class="w-24 px-2.5 py-1.5 rounded-lg bg-slate-950 border border-sky-500/50 text-white font-orbitron text-xs text-center focus:outline-none">
+                                    <span class="text-xs text-slate-400">وحدة</span>
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-3 gap-4" id="mrp-materials-grid"></div>
+                        </div>
+                    </div>
+
+                    <!-- SIMULATOR D: SAME-DAY LOGO DESIGN STUDIO (150 - 300 EGP) -->
+                    <div id="sandbox-logo" class="sandbox-panel hidden space-y-5">
+                        <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-800">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+                                    <i class="fa-solid fa-pen-nib text-amber-400"></i>
+                                    <span>استوديو تصميم اللوجو والشعار الفوري (150 إلى 300 جنيه فقط — تسليم نفس اليوم!)</span>
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-0.5">اكتب اسم شركتك أو مصنعك وجرب المعاينة الفورية للستايل المعدني أو الصناعي أو التجاري قبل الطلب.</p>
+                            </div>
+                            <span class="px-3 py-1.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 font-extrabold text-xs">
+                                <i class="fa-solid fa-clock ml-1"></i> التسليم في نفس اليوم!
+                            </span>
+                        </div>
+
+                        <div class="grid lg:grid-cols-12 gap-6 items-center">
+                            <div class="lg:col-span-5 space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1.5">اكتب اسم شركتك أو نشاطك التجاري للمعاينة:</label>
+                                    <input type="text" id="demo-logo-name" value="SPACE LIGHT" oninput="updateLogoPreview()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-white focus:border-amber-400 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1.5">اختر طابع التصميم والباقة:</label>
+                                    <select id="demo-logo-style" onchange="updateLogoPreview()" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-white focus:border-amber-400 focus:outline-none">
+                                        <option value="metallic">ستايل معدني عصري لامع (300 ج.م - تسليم نفس اليوم)</option>
+                                        <option value="industrial">ستايل صناعي وهندسي ثقيل (250 ج.م - تسليم نفس اليوم)</option>
+                                        <option value="minimal">ستايل تجاري كلاسيكي بسيط (150 ج.م - تسليم نفس اليوم)</option>
+                                    </select>
+                                </div>
+                                <button onclick="selectServiceAndOrder('تصميم لوجو وشعار احترافي (150 - 300 ج.م - تسليم نفس اليوم)')" class="w-full metallic-btn py-3 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-check-double"></i>
+                                    <span>اطلب تصميم اللوجو الخاص بك الآن (150 - 300 ج.م)</span>
+                                </button>
+                            </div>
+
+                            <!-- Live Logo Preview Canvas -->
+                            <div class="lg:col-span-7 bg-gradient-to-br from-slate-950 via-[#0b1320] to-slate-900 rounded-2xl p-8 border border-slate-700 flex flex-col items-center justify-center text-center min-h-[220px] relative overflow-hidden">
+                                <div class="w-16 h-16 rounded-2xl bg-slate-900 border border-amber-400/50 flex items-center justify-center mb-3 shadow-lg">
+                                    <i id="demo-logo-icon" class="fa-solid fa-code text-3xl text-sky-400"></i>
+                                </div>
+                                <div id="demo-logo-title" class="font-orbitron text-2xl sm:text-3xl font-black tracking-wider metallic-text">SPACE LIGHT</div>
+                                <div id="demo-logo-sub" class="text-xs tracking-[0.2em] text-amber-400 font-bold mt-1.5">SOFTWARE & ENGINEERING SOLUTIONS</div>
+                                <div class="mt-4 text-[11px] text-slate-400 bg-slate-900/90 px-3 py-1 rounded-full border border-slate-800">
+                                    يتم تسليم الشعار بدقة عالية (PNG + Vector) في نفس يوم الطلب بتكلفة 150 - 300 ج.م فقط
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================================================= -->
+            <!-- TAB 5: حاسبة التكلفة وطلب مشروع (TRANSPARENT PRICING & ORDER) -->
+            <!-- ============================================================= -->
+            <section id="spa-view-roi" class="spa-view hidden">
+                
+                <!-- 2-Column Split View on Desktop -->
+                <div class="grid lg:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- Right Column (6 Cols): Transparent Project & User Pricing Calculator -->
+                    <div class="lg:col-span-6 metallic-card rounded-3xl p-6 space-y-5">
+                        <div class="border-b border-slate-800 pb-4">
+                            <span class="text-[10px] font-orbitron uppercase tracking-widest text-sky-400">TRANSPARENT PRICING CALCULATOR</span>
+                            <h2 class="text-xl sm:text-2xl font-black metallic-text mt-1">حاسبة التكلفة الواضحة والمستخدمين</h2>
+                            <p class="text-xs text-slate-300 mt-1">احسب التكلفة التقديرية لمشروعك بشفافية تامة: الإكسيل من 0 إلى 5,000 ج.م، والأنظمة المتكاملة من 3,000 إلى 25,000 ج.م مع 50 مستخدماً مجاناً مدى الحياة.</p>
+                        </div>
+
+                        <!-- Sliders & Selectors -->
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1.5">1. اختر نوع النشاط أو النظام المطلوب:</label>
+                                <select id="calc-project-type" onchange="updateTransparentCalc()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs font-bold text-white focus:border-sky-400 focus:outline-none">
+                                    <option value="free">مبادرة الحلول والأدوات المجانية للأنشطة الناشئة (0 ج.م - مجاناً)</option>
+                                    <option value="logo">تصميم لوجو وشعار احترافي (150 - 300 ج.م | تسليم نفس اليوم)</option>
+                                    <option value="excel">برمجة إكسيل أو تحويل إكسيل لتطبيق ذكي (من 0 إلى 5,000 ج.م)</option>
+                                    <option value="commercial" selected>أنظمة الجيم والنوادي / المخازن / محلات الصيانة والموبايل / الحضور والانصراف (3,000 - 15,000 ج.م)</option>
+                                    <option value="crm">نظام إدارة العملاء CRM وتطبيقات موبايل لربط العميل بمقدم الخدمة (3,000 - 20,000 ج.م)</option>
+                                    <option value="full">الأنظمة الصناعية المتكاملة ومنصات النقل الذكي والتتبع (3,000 - 25,000 ج.م كحد أقصى)</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between text-xs font-bold mb-1.5">
+                                    <span class="text-slate-300">2. عدد المستخدمين المطلوبين على النظام:</span>
+                                    <span id="calc-users-label" class="font-orbitron text-emerald-400 font-extrabold">35 مستخدماً (مجاناً مدى الحياة!)</span>
+                                </div>
+                                <input type="range" id="calc-users" min="5" max="150" step="5" value="35" oninput="updateTransparentCalc()" class="w-full">
+                                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                                    <span class="text-emerald-400 font-bold">من 1 إلى 50 مستخدماً: مجاناً مدى الحياة (0 ج.م)</span>
+                                    <span class="text-amber-300">من المستخدم 51+: اشتراك سحابي رمزي</span>
+                                </div>
+                            </div>
+
+                            <!-- Hardware Clarification Box -->
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-amber-500/30 text-xs text-slate-300 flex items-start gap-2.5">
+                                <i class="fa-solid fa-circle-info text-amber-400 mt-0.5"></i>
+                                <div>
+                                    <strong class="text-white">ملاحظة الهاردوير (Hardware):</strong> الأسعار الموضحة تغطي البرمجيات، تطبيقات الموبايل والكمبيوتر، الذكاء الاصطناعي، والأمان بالكامل، وهي <strong class="text-amber-300">غير شاملة أجهزة الهاردوير</strong> (مثل الشاشات أو قارئ الباركود أو أجهزة البصمة) إن تطلب المشروع ذلك.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Output Results Card -->
+                        <div class="bg-slate-950/90 rounded-2xl p-5 border-2 border-sky-500/40 grid sm:grid-cols-2 gap-4 text-center">
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <div class="text-[11px] text-slate-400">تكلفة النظام / الخدمة (دفعة التعاقد)</div>
+                                <div id="calc-price-output" class="font-orbitron text-xl sm:text-2xl font-black text-sky-400 mt-1">3,000 - 15,000 ج.م</div>
+                                <div id="calc-delivery-note" class="text-[11px] text-slate-300 mt-0.5 font-bold">عقود موثقة + ضمان شامل</div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <div class="text-[11px] text-slate-400">تكلفة رخص المستخدمين</div>
+                                <div id="calc-users-cost" class="font-orbitron text-xl sm:text-2xl font-black text-emerald-400 mt-1">0 ج.م (مجاناً مدى الحياة)</div>
+                                <div id="calc-users-sub" class="text-[11px] text-slate-300 mt-0.5 font-bold">ضمن الـ 50 مستخدماً المجانية!</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Left Column (6 Cols): Smart Project Request Generator -->
+                    <div class="lg:col-span-6 metallic-card rounded-3xl p-6 space-y-4">
+                        <div class="border-b border-slate-800 pb-4">
+                            <span class="text-[10px] font-orbitron uppercase tracking-widest text-emerald-400">DOCUMENTED CONTRACT & BRIEF</span>
+                            <h2 class="text-xl sm:text-2xl font-black metallic-text mt-1">اطلب مشروعك أو اللوجو بعقد موثق (واتساب / إيميل)</h2>
+                            <p class="text-xs text-slate-400 mt-1">بمجرد ملء البيانات يمكنك إرسال الطلب مباشرة على واتساب أو البريد الإلكتروني الرسمي للشركة.</p>
+                        </div>
+
+                        <!-- Admin Receiver Contact Settings (Editable by Owner) -->
+                        <div class="p-3 rounded-2xl bg-slate-900/95 border border-sky-500/30 space-y-2">
+                            <div class="flex items-center justify-between text-[11px]">
+                                <span class="font-bold text-sky-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-gear"></i>
+                                    <span>بيانات استقبال الطلبات (خاصة بإدارة SPACE LIGHT):</span>
+                                </span>
+                                <span class="text-slate-400 text-[10px]">يمكنك تعديل رقمك وإيميلك هنا</span>
+                            </div>
+                            <div class="grid sm:grid-cols-2 gap-2">
+                                <div class="flex items-center bg-slate-950 rounded-xl px-2.5 py-1.5 border border-slate-800">
+                                    <i class="fa-brands fa-whatsapp text-emerald-400 ml-2 text-sm"></i>
+                                    <input type="text" id="owner-whatsapp" value="201000000000" title="رقم واتساب الشركة بصيغة دولية مثل 2010xxxxxxxx" placeholder="رقم واتساب الاستقبال (مثال: 201012345678)" class="w-full bg-transparent text-[11px] font-mono text-white focus:outline-none" dir="ltr">
+                                </div>
+                                <div class="flex items-center bg-slate-950 rounded-xl px-2.5 py-1.5 border border-slate-800">
+                                    <i class="fa-solid fa-envelope text-sky-400 ml-2 text-xs"></i>
+                                    <input type="email" id="owner-email" value="muhamed.elhamalawy@spacelight.eg" title="البريد الإلكتروني لاستقبال الطلبات" placeholder="البريد الإلكتروني للشركة" class="w-full bg-transparent text-[11px] font-mono text-white focus:outline-none" dir="ltr">
+                                </div>
+                            </div>
+                        </div>
+
+                        <form onsubmit="generateProjectBrief(event)" class="space-y-3.5">
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">الاسم / المسؤول</label>
+                                    <input type="text" id="client-name" required placeholder="مثال: م. أحمد محمود" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-white focus:border-sky-400 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">اسم الشركة / المصنع / النادي / المحل</label>
+                                    <input type="text" id="client-company" required placeholder="مثال: جيم هيرو / مركز صيانة تك / مصنع النور" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-white focus:border-sky-400 focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div class="grid sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">الخدمة أو النظام المطلوب</label>
+                                    <select id="client-pillar" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-white focus:border-sky-400 focus:outline-none">
+                                        <option value="تصميم لوجو وشعار احترافي (150 - 300 ج.م - تسليم نفس اليوم)">1. تصميم لوجو وشعار (150 - 300 ج.م | تسليم نفس اليوم)</option>
+                                        <option value="حلول الإكسيل أو أداة مجانية (من 0 مجاناً إلى 5,000 ج.م)">2. حلول الإكسيل أو أداة مجانية (من 0 إلى 5,000 ج.م)</option>
+                                        <option value="نظام موبايل وشاشة تحكم للصالات الرياضية (الجيم) والنوادي الاجتماعية">3. نظام الجيم والصالات الرياضية والنوادي (موبايل + شاشة تحكم)</option>
+                                        <option value="نظام إدارة العملاء CRM وتطبيق ربط العميل بمقدم الخدمة">4. نظام إدارة العملاء CRM وتطبيق ربط العميل بمقدم الخدمة</option>
+                                        <option value="نظام حضور وانصراف الموظفين الذكي">5. نظام حضور وانصراف الموظفين الذكي</option>
+                                        <option value="نظام إدارة المخازن للأنشطة الصغيرة والمتوسطة">6. نظام إدارة المخازن للأنشطة الصغيرة والمتوسطة</option>
+                                        <option value="نظام إدارة محلات الصيانة والموبايل ومراكز الخدمة">7. نظام إدارة محلات الصيانة والموبايل ومراكز الخدمة</option>
+                                        <option value="نظام صناعي للمصانع والـ SMEs (3,000 - 25,000 ج.م + 50 مستخدم مجاناً)" selected>8. نظام صناعي للمصانع SMEs (3,000 - 25,000 ج.م)</option>
+                                        <option value="نظام النقل الذكي وتتبع المناديب (3,000 - 25,000 ج.م + 50 مستخدم مجاناً)">9. نظام النقل الذكي وتتبع المناديب (3,000 - 25,000 ج.م)</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-300 mb-1">رقم الهاتف / واتساب</label>
+                                    <input type="tel" id="client-phone" required placeholder="01xxxxxxxxx" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-white focus:border-sky-400 focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">تفاصيل النظام أو اللوجو المطلوب</label>
+                                <textarea id="client-notes" rows="2" placeholder="اكتب فكرتك أو المشكلة التي تريد حلها..." class="w-full px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-700 text-xs text-white focus:border-sky-400 focus:outline-none"></textarea>
+                            </div>
+
+                            <!-- Direct Submit & Send Action Buttons -->
+                            <div class="grid sm:grid-cols-2 gap-2.5 pt-1">
+                                <button type="button" onclick="submitAndSend('whatsapp')" class="w-full py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 shadow-lg shadow-emerald-500/20 transition">
+                                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                                    <span>إرسال الطلب عبر واتساب</span>
+                                </button>
+                                <button type="button" onclick="submitAndSend('email')" class="w-full py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 bg-gradient-to-r from-sky-400 to-blue-500 hover:from-sky-300 hover:to-blue-400 text-slate-950 shadow-lg shadow-sky-500/20 transition">
+                                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                                    <span>إرسال الطلب عبر الإيميل</span>
+                                </button>
+                            </div>
+
+                            <button type="submit" class="w-full metallic-btn-outline py-2.5 rounded-xl font-bold text-xs text-slate-300 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-file-signature text-sky-400"></i>
+                                <span>معاينة وثيقة الطلب الموثقة فقط قبل الإرسال</span>
+                            </button>
+                        </form>
+
+                        <!-- Validation / Status Alert Box -->
+                        <div id="form-alert-box" class="hidden p-3 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span id="form-alert-text">يرجى إدخال الاسم، اسم النشاط، ورقم الهاتف أولاً.</span>
+                        </div>
+
+                        <!-- Generated Proposal Preview Box -->
+                        <div id="proposal-preview-box" class="hidden p-4 rounded-2xl bg-slate-950 border border-emerald-500/40 space-y-3">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    وثيقة الطلب الموثقة جاهزة للإرسال الفوري
+                                </span>
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <button type="button" onclick="sendBriefViaWhatsApp()" class="text-[11px] px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold flex items-center gap-1 transition">
+                                        <i class="fa-brands fa-whatsapp"></i>
+                                        <span>إرسال واتساب</span>
+                                    </button>
+                                    <button type="button" onclick="sendBriefViaEmail()" class="text-[11px] px-3 py-1.5 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-300 font-bold flex items-center gap-1 transition">
+                                        <i class="fa-solid fa-envelope"></i>
+                                        <span>إرسال إيميل</span>
+                                    </button>
+                                    <button type="button" onclick="copyProposalText()" class="text-[11px] px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold flex items-center gap-1 transition">
+                                        <i class="fa-regular fa-copy"></i>
+                                        <span id="copy-btn-label">نسخ</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre id="proposal-text-content" class="text-[11px] text-slate-300 whitespace-pre-wrap font-cairo bg-slate-900/90 p-3 rounded-xl border border-slate-800 leading-relaxed"></pre>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- MOBILE FLOATING BOTTOM NAVIGATION BAR (5 App-Like Tabs) -->
+    <nav class="lg:hidden fixed bottom-0 inset-x-0 z-50 bg-[#070a0f]/95 backdrop-blur-xl border-t border-slate-800 px-1 py-1.5 flex items-center justify-around shadow-2xl">
+        <button onclick="switchMainTab('overview')" id="mob-tab-overview" class="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-sky-400 bg-sky-500/10 font-bold text-[10px]">
+            <i class="fa-solid fa-house-laptop text-sm"></i>
+            <span>الرئيسية</span>
+        </button>
+        <button onclick="switchMainTab('solutions')" id="mob-tab-solutions" class="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-slate-400 font-bold text-[10px]">
+            <i class="fa-solid fa-cubes text-sm"></i>
+            <span>الحلول واللوجو</span>
+        </button>
+        <button onclick="switchMainTab('policy')" id="mob-tab-policy" class="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-slate-400 font-bold text-[10px]">
+            <i class="fa-solid fa-scale-balanced text-sm text-amber-400"></i>
+            <span>سياسة الشركة</span>
+        </button>
+        <button onclick="switchMainTab('sandbox')" id="mob-tab-sandbox" class="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-slate-400 font-bold text-[10px] relative">
+            <span class="absolute top-1 right-3 w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <i class="fa-solid fa-flask text-sm"></i>
+            <span>المختبر</span>
+        </button>
+        <button onclick="switchMainTab('roi')" id="mob-tab-roi" class="flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-slate-400 font-bold text-[10px]">
+            <i class="fa-solid fa-calculator text-sm"></i>
+            <span>حاسبة وطلب</span>
+        </button>
+    </nav>
+
+    <!-- COMPACT FOOTER -->
+    <footer class="py-4 bg-[#05070b] border-t border-slate-800/80 text-center text-[11px] text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+                <span class="font-orbitron text-sm font-black metallic-text">SPACE LIGHT</span>
+                <span>|</span>
+                <span class="text-slate-300 font-bold">SOFTWARE & ENGINEERING SOLUTIONS — MUHAMED ELHAMALAWY</span>
+            </div>
+            <div class="text-sky-300/90 font-bold">
+                حلول مجانية & إكسيل (0 - 5,000 ج.م) | الأنظمة المتكاملة (3,000 - 25,000 ج.م) | 50 مستخدماً مجاناً مدى الحياة | اللوجو 150-300 ج.م في نفس اليوم
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SPA & SIMULATORS JAVASCRIPT -->
+    <script>
+        // 1. MASTER SPA TAB NAVIGATION (5 Tabs)
+        function switchMainTab(tabId) {
+            const views = ['overview', 'solutions', 'policy', 'sandbox', 'roi'];
+
+            views.forEach(v => {
+                const viewEl = document.getElementById('spa-view-' + v);
+                if (!viewEl) return;
+                if (v === tabId) {
+                    viewEl.classList.remove('hidden');
+                    viewEl.classList.remove('spa-view-active');
+                    void viewEl.offsetWidth;
+                    viewEl.classList.add('spa-view-active');
+                } else {
+                    viewEl.classList.add('hidden');
+                }
+
+                const deskBtn = document.getElementById('nav-tab-' + v);
+                if (deskBtn) {
+                    if (v === tabId) {
+                        deskBtn.classList.add('active');
+                    } else {
+                        deskBtn.classList.remove('active');
+                    }
+                }
+
+                const mobBtn = document.getElementById('mob-tab-' + v);
+                if (mobBtn) {
+                    if (v === tabId) {
+                        mobBtn.className = 'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-sky-400 bg-sky-500/10 font-bold text-[10px] relative';
+                    } else {
+                        mobBtn.className = 'flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-slate-400 font-bold text-[10px] relative';
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openSolutionsWithFilter(category) {
+            switchMainTab('solutions');
+            filterPillars(category);
+        }
+
+        function jumpToSandbox(simType) {
+            switchMainTab('sandbox');
+            switchSandboxTab(simType);
+        }
+
+        function selectServiceAndOrder(serviceName) {
+            switchMainTab('roi');
+            const selectEl = document.getElementById('client-pillar');
+            if (selectEl) {
+                for (let i = 0; i < selectEl.options.length; i++) {
+                    if (selectEl.options[i].value.includes(serviceName.substring(0, 10))) {
+                        selectEl.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+            document.getElementById('client-name').focus();
+        }
+
+        // 2. FILTER SOLUTIONS CATALOG (TAB 2)
+        function filterPillars(category) {
+            const items = document.querySelectorAll('.pillar-item');
+            const buttons = document.querySelectorAll('.pillar-tab');
+
+            buttons.forEach(btn => {
+                btn.className = 'pillar-tab metallic-btn-outline text-slate-300 px-3.5 py-2 rounded-xl font-bold text-xs';
+            });
+            const activeBtn = document.getElementById('pillar-btn-' + category);
+            if (activeBtn) {
+                activeBtn.className = 'pillar-tab metallic-btn px-3.5 py-2 rounded-xl font-bold text-xs';
+            }
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // 3. SWITCH SANDBOX SUB-TABS (TAB 4)
+        function switchSandboxTab(tabName) {
+            const panels = ['andon', 'fleet', 'mrp', 'logo'];
+            panels.forEach(p => {
+                const panelEl = document.getElementById('sandbox-' + p);
+                if (panelEl) panelEl.classList.add('hidden');
+                const btn = document.getElementById('tab-btn-' + p);
+                if (btn) btn.className = 'metallic-btn-outline text-slate-300 px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5';
+            });
+
+            document.getElementById('sandbox-' + tabName).classList.remove('hidden');
+            document.getElementById('tab-btn-' + tabName).className = 'metallic-btn px-3.5 py-2 rounded-xl font-bold text-xs flex items-center gap-1.5';
+        }
+
+        // 4. SIMULATOR A: SMART ANDON, OEE & PPM
+        const andonLines = [
+            { id: 1, name: 'خط التجميع الرئيسي A1', status: 'running', oee: 92, alertType: null, downtimeSec: 0 },
+            { id: 2, name: 'خط الكبس والـ Tooling B2', status: 'running', oee: 88, alertType: null, downtimeSec: 0 },
+            { id: 3, name: 'خط اللحام الأوتوماتيكي C3', status: 'running', oee: 85, alertType: null, downtimeSec: 0 },
+            { id: 4, name: 'خط الفحص والتعبئة D4', status: 'running', oee: 89, alertType: null, downtimeSec: 0 }
+        ];
+
+        function renderAndonLines() {
+            const container = document.getElementById('andon-lines-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let totalOee = 0;
+            let activeAlerts = 0;
+
+            andonLines.forEach(line => {
+                totalOee += line.oee;
+                if (line.status !== 'running') activeAlerts++;
+
+                const isAlert = line.status === 'alert';
+                const isDispatched = line.status === 'dispatched';
+
+                const cardBorder = isAlert ? 'border-rose-500/80 bg-rose-950/20' : (isDispatched ? 'border-amber-400/80 bg-amber-950/20' : 'border-slate-800 bg-slate-900/80');
+                const badgeClass = isAlert ? 'bg-rose-500/20 text-rose-400 border-rose-500/30 animate-pulse' : (isDispatched ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30');
+                const badgeText = isAlert ? 'توقف: ' + line.alertType : (isDispatched ? 'الفني في الطريق' : 'يعمل بكفاءة');
+
+                container.innerHTML += `
+                    <div class="rounded-2xl p-4 border ${cardBorder} transition-all flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-white">${line.name}</span>
+                                <span class="text-[10px] px-2 py-0.5 rounded-full border ${badgeClass}">${badgeText}</span>
+                            </div>
+                            <div class="flex items-baseline justify-between pt-1">
+                                <span class="text-[11px] text-slate-400">كفاءة الخط (OEE):</span>
+                                <span class="font-orbitron text-base font-bold ${isAlert ? 'text-rose-400' : 'text-sky-400'}">${line.oee}%</span>
+                            </div>
+                            <div class="flex items-baseline justify-between mt-1">
+                                <span class="text-[11px] text-slate-400">عداد التوقف اللحظي:</span>
+                                <span class="font-orbitron text-xs text-slate-300">${line.downtimeSec} ثانية</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-2.5 border-t border-slate-800/80">
+                            ${line.status === 'running' ? `
+                                <button onclick="triggerLineAlert(${line.id})" class="w-full py-2 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/40 text-rose-300 text-xs font-bold transition">
+                                    <i class="fa-solid fa-triangle-exclamation ml-1"></i> إبلاغ عطل / طلب Tooling
+                                </button>
+                            ` : line.status === 'alert' ? `
+                                <button onclick="dispatchTechnician(${line.id})" class="w-full py-2 rounded-lg bg-amber-400 text-slate-950 text-xs font-extrabold transition">
+                                    <i class="fa-solid fa-user-gear ml-1"></i> توجيه أقرب فني صيانة فوراً
+                                </button>
+                            ` : `
+                                <button onclick="resolveLineAlert(${line.id})" class="w-full py-2 rounded-lg bg-emerald-500 text-slate-950 text-xs font-extrabold transition">
+                                    <i class="fa-solid fa-check ml-1"></i> تأكيد الإصلاح وإعادة التشغيل
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            });
+
+            const avgOee = (totalOee / andonLines.length).toFixed(1);
+            document.getElementById('live-oee-value').innerText = avgOee + '%';
+            document.getElementById('live-ppm-value').innerText = activeAlerts > 0 ? (120 + activeAlerts * 45) : 120;
+            document.getElementById('active-alerts-count').innerText = activeAlerts;
+        }
+
+        function triggerLineAlert(id) {
+            const line = andonLines.find(l => l.id === id);
+            if (!line) return;
+            line.status = 'alert';
+            line.alertType = 'استدعاء Tooling / صيانة';
+            line.oee = Math.max(62, line.oee - 14);
+            document.getElementById('andon-log-text').innerText = `تنبيه فوري: تم تسجيل استدعاء على (${line.name}) وبدأ عداد حساب وقت التوقف اللحظي.`;
+            renderAndonLines();
+        }
+
+        function dispatchTechnician(id) {
+            const line = andonLines.find(l => l.id === id);
+            if (!line) return;
+            line.status = 'dispatched';
+            document.getElementById('andon-log-text').innerText = `تم إرسال إشعار لموبايل مشرف الـ Tooling والفني المختص بالتوجه إلى (${line.name}).`;
+            renderAndonLines();
+        }
+
+        function resolveLineAlert(id) {
+            const line = andonLines.find(l => l.id === id);
+            if (!line) return;
+            line.status = 'running';
+            line.alertType = null;
+            line.oee = 90;
+            document.getElementById('andon-log-text').innerText = `تم إغلاق البلاغ على (${line.name}) وتوثيق زمن الاستجابة (${line.downtimeSec} ثانية) في سجل الـ OEE.`;
+            line.downtimeSec = 0;
+            renderAndonLines();
+        }
+
+        function resetAndonDemo() {
+            andonLines.forEach(l => {
+                l.status = 'running';
+                l.oee = 89;
+                l.downtimeSec = 0;
+            });
+            document.getElementById('andon-log-text').innerText = 'تمت إعادة ضبط جميع الخطوط للحالة القياسية.';
+            renderAndonLines();
+        }
+
+        setInterval(() => {
+            let changed = false;
+            andonLines.forEach(l => {
+                if (l.status !== 'running') {
+                    l.downtimeSec++;
+                    changed = true;
+                }
+            });
+            if (changed) renderAndonLines();
+        }, 1000);
+
+        // 5. SIMULATOR B: FLEET RADAR 1KM DISPATCH
+        function triggerFleetDispatch() {
+            const statusEl = document.getElementById('fleet-match-status');
+            const driverEl = document.getElementById('fleet-matched-driver');
+            const etaEl = document.getElementById('fleet-eta');
+            const fareEl = document.getElementById('fleet-fare');
+            const unit1 = document.getElementById('fleet-unit-1');
+
+            statusEl.innerText = 'جاري مسح النطاق الجغرافي (1.0 كم) للبحث عن أقرب وحدة متاحة...';
+            statusEl.className = 'text-xs sm:text-sm font-bold text-amber-300 animate-pulse';
+
+            setTimeout(() => {
+                statusEl.innerText = 'تمت المطابقة اللحظية وتوجيه الطلب للكابتن الأقرب بنجاح!';
+                statusEl.className = 'text-xs sm:text-sm font-bold text-emerald-400';
+                driverEl.innerText = 'كابتن #104 (مسافة 400 متر)';
+                etaEl.innerText = 'دقيقتان (2 Mins)';
+                fareEl.innerText = '65.00 ج.م (تحصيل نقدي)';
+                unit1.style.top = '44%';
+                unit1.style.right = '40%';
+            }, 800);
+        }
+
+        function resetFleetRadar() {
+            document.getElementById('fleet-match-status').innerText = 'اضغط على زر "إرسال طلب رحلة" لمسح النطاق الجغرافي وتوجيه أقرب كابتن...';
+            document.getElementById('fleet-match-status').className = 'text-xs sm:text-sm font-bold text-white';
+            document.getElementById('fleet-matched-driver').innerText = '—';
+            document.getElementById('fleet-eta').innerText = '—';
+            document.getElementById('fleet-fare').innerText = '—';
+            const unit1 = document.getElementById('fleet-unit-1');
+            unit1.style.top = '2.5rem';
+            unit1.style.right = '3.5rem';
+        }
+
+        // 6. SIMULATOR C: EXCEL-TO-APP CONVERTER & SMART MRP
+        const rawMaterials = [
+            { code: 'RM-101', name: 'شرائح صاج معالج (1.5 مم)', perUnit: 2.0, currentStock: 1200, unit: 'كجم' },
+            { code: 'RM-204', name: 'مكونات تثبيت وربط قياسية', perUnit: 4.0, currentStock: 1600, unit: 'قطعة' },
+            { code: 'RM-309', name: 'عبوات تغليف صناعي مقوى', perUnit: 1.0, currentStock: 650, unit: 'عبوة' }
+        ];
+
+        function toggleExcelConversion() {
+            const rawEl = document.getElementById('raw-excel-view');
+            const btn = document.getElementById('excel-convert-btn');
+            if (rawEl.classList.contains('hidden')) {
+                rawEl.classList.remove('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-bolt text-sky-700"></i><span>إخفاء شيت الإكسيل الخام والتركيز على التطبيق</span>`;
+            } else {
+                rawEl.classList.add('hidden');
+                btn.innerHTML = `<i class="fa-solid fa-table text-sky-700"></i><span>عرض مقارنة شيت الإكسيل القديم</span>`;
+            }
+        }
+
+        function calculateSmartMRP() {
+            const orderQty = parseInt(document.getElementById('mrp-order-qty').value) || 0;
+            const grid = document.getElementById('mrp-materials-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            rawMaterials.forEach(mat => {
+                const required = orderQty * mat.perUnit;
+                const balance = mat.currentStock - required;
+                const isShortage = balance < 0;
+
+                grid.innerHTML += `
+                    <div class="p-4 rounded-2xl border ${isShortage ? 'border-rose-500/70 bg-rose-950/20' : 'border-emerald-500/40 bg-slate-900/90'} space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="font-orbitron text-xs text-sky-400">${mat.code}</span>
+                            <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full ${isShortage ? 'bg-rose-500/20 text-rose-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                                ${isShortage ? 'تنبيه عجز خامات' : 'متوفر بالكامل'}
+                            </span>
+                        </div>
+                        <div class="font-bold text-xs sm:text-sm text-white">${mat.name}</div>
+                        <div class="text-xs text-slate-400 flex justify-between pt-2 border-t border-slate-800">
+                            <span>المطلوب: <strong>${required.toLocaleString()} ${mat.unit}</strong></span>
+                            <span>المخزون: <strong>${mat.currentStock.toLocaleString()}</strong></span>
+                        </div>
+                        <div class="text-xs font-bold ${isShortage ? 'text-rose-400' : 'text-emerald-400'}">
+                            ${isShortage ? `كمية العجز للشراء: ${Math.abs(balance).toLocaleString()} ${mat.unit}` : `الرصيد المتبقي: +${balance.toLocaleString()} ${mat.unit}`}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // 6.5 SIMULATOR D: SAME-DAY LOGO PREVIEWER
+        function updateLogoPreview() {
+            const name = document.getElementById('demo-logo-name').value || 'SPACE LIGHT';
+            const style = document.getElementById('demo-logo-style').value;
+            const titleEl = document.getElementById('demo-logo-title');
+            const subEl = document.getElementById('demo-logo-sub');
+            const iconEl = document.getElementById('demo-logo-icon');
+
+            titleEl.innerText = name.toUpperCase();
+            if (style === 'metallic') {
+                titleEl.className = 'font-orbitron text-2xl sm:text-3xl font-black tracking-wider metallic-text';
+                subEl.innerText = 'SOFTWARE & ENGINEERING SOLUTIONS • 300 EGP (SAME DAY)';
+                iconEl.className = 'fa-solid fa-code text-3xl text-sky-400';
+            } else if (style === 'industrial') {
+                titleEl.className = 'font-orbitron text-2xl sm:text-3xl font-black tracking-wider metallic-cyan-text';
+                subEl.innerText = 'INDUSTRIAL & ENGINEERING • 250 EGP (SAME DAY)';
+                iconEl.className = 'fa-solid fa-gears text-3xl text-amber-400';
+            } else {
+                titleEl.className = 'font-cairo text-2xl sm:text-3xl font-black text-white';
+                subEl.innerText = 'COMMERCIAL CLEAN LOGO • 150 EGP (SAME DAY)';
+                iconEl.className = 'fa-solid fa-pen-nib text-3xl text-emerald-400';
+            }
+        }
+
+        // 7. TRANSPARENT PRICING & USERS CALCULATOR
+        function updateTransparentCalc() {
+            const projectType = document.getElementById('calc-project-type').value;
+            const usersCount = parseInt(document.getElementById('calc-users').value) || 35;
+            
+            document.getElementById('calc-users-label').innerText = usersCount + ' مستخدماً ' + (usersCount <= 50 ? '(مجاناً مدى الحياة!)' : '(أول 50 مجاناً)');
+
+            let priceText = '';
+            let deliveryText = '';
+
+            if (projectType === 'free') {
+                priceText = '0 ج.م (مجاناً تماماً)';
+                deliveryText = 'مبادرة دعم الأنشطة الناشئة';
+            } else if (projectType === 'logo') {
+                priceText = '150 - 300 ج.م';
+                deliveryText = 'تسليم في نفس اليوم!';
+            } else if (projectType === 'excel') {
+                priceText = '0 - 5,000 ج.م';
+                deliveryText = 'إكسيل مؤتمت خلال 72 ساعة';
+            } else if (projectType === 'commercial') {
+                priceText = '3,000 - 15,000 ج.م';
+                deliveryText = 'جيم، مخازن، صيانة، حضور وانصراف';
+            } else if (projectType === 'crm') {
+                priceText = '3,000 - 20,000 ج.م';
+                deliveryText = 'CRM وتطبيق ربط العملاء';
+            } else {
+                priceText = '3,000 - 25,000 ج.م كحد أقصى';
+                deliveryText = 'أنظمة متكاملة وأساطيل';
+            }
+
+            document.getElementById('calc-price-output').innerText = priceText;
+            document.getElementById('calc-delivery-note').innerText = deliveryText;
+
+            const usersCostEl = document.getElementById('calc-users-cost');
+            const usersSubEl = document.getElementById('calc-users-sub');
+
+            if (usersCount <= 50) {
+                usersCostEl.innerText = '0 ج.م (مجاناً مدى الحياة)';
+                usersCostEl.className = 'font-orbitron text-xl sm:text-2xl font-black text-emerald-400 mt-1';
+                usersSubEl.innerText = 'ضمن الـ 50 مستخدماً المجانية!';
+            } else {
+                const extraUsers = usersCount - 50;
+                usersCostEl.innerText = `${extraUsers * 45} ج.م / شهرياً`;
+                usersCostEl.className = 'font-orbitron text-xl sm:text-2xl font-black text-amber-400 mt-1';
+                usersSubEl.innerText = `أول 50 مجاناً + محاسبة ${extraUsers} مستخدماً إضافياً`;
+            }
+        }
+
+        // 8. PROJECT BRIEF GENERATOR & DIRECT WHATSAPP / EMAIL SENDER
+        function buildBriefSummary() {
+            const name = document.getElementById('client-name').value.trim();
+            const company = document.getElementById('client-company').value.trim();
+            const pillar = document.getElementById('client-pillar').value;
+            const phone = document.getElementById('client-phone').value.trim();
+            const notes = document.getElementById('client-notes').value.trim() || 'طلب تعاقد موثق وعرض فني ومالي واضح.';
+            const usersCount = document.getElementById('calc-users') ? document.getElementById('calc-users').value : '35';
+            const estimatedPrice = document.getElementById('calc-price-output') ? document.getElementById('calc-price-output').innerText : '3,000 - 25,000 ج.م';
+
+            const alertBox = document.getElementById('form-alert-box');
+            if (!name || !company || !phone) {
+                alertBox.classList.remove('hidden');
+                return null;
+            }
+            alertBox.classList.add('hidden');
+
+            const summary = `وثيقة طلب رسمية وموثقة — شركة SPACE LIGHT (م. محمد الحملاوي)
+«ميثاقنا: تجارة نظيفة، شفافية كاملة، وخبرة حقيقية لخدمة المجتمع»
+--------------------------------------------------
+• العميل / المسؤول: ${name}
+• الشركة / المصنع / النشاط: ${company}
+• الخدمة المطلوبة: ${pillar}
+• التكلفة التقديرية بالحاسبة: ${estimatedPrice}
+• عدد المستخدمين المطلوب: ${usersCount} مستخدماً (أول 50 مستخدماً مجاناً مدى الحياة)
+• رقم تواصل العميل: ${phone}
+• المزايا المضمنة بالعقد:
+  - 50 مستخدماً مجاناً مدى الحياة (للأنظمة متعددة المستخدمين).
+  - حلول ذكية مدعومة بالذكاء الاصطناعي وأمان البيانات + خبرة عملية.
+  - كافة المعاملات والبنود مكتوبة وموثقة (السعر غير شامل الهاردوير إن تطلب).
+• تفاصيل الاحتياج: ${notes}
+--------------------------------------------------
+تم الإرسال عبر بوابة SPACE LIGHT الرقمية.`;
+
+            document.getElementById('proposal-text-content').innerText = summary;
+            document.getElementById('proposal-preview-box').classList.remove('hidden');
+            return { summary, name, company, pillar, phone };
+        }
+
+        function generateProjectBrief(e) {
+            if (e) e.preventDefault();
+            buildBriefSummary();
+        }
+
+        function submitAndSend(channel) {
+            const data = buildBriefSummary();
+            if (!data) return;
+            if (channel === 'whatsapp') {
+                sendBriefViaWhatsApp();
+            } else if (channel === 'email') {
+                sendBriefViaEmail();
+            }
+        }
+
+        function sendBriefViaWhatsApp() {
+            const data = buildBriefSummary();
+            if (!data) return;
+
+            let rawPhone = document.getElementById('owner-whatsapp').value.replace(/[^0-9]/g, '');
+            if (rawPhone.startsWith('01')) {
+                rawPhone = '2' + rawPhone; // Convert Egyptian 01xxxxxxxxx to 201xxxxxxxxx
+            }
+            if (!rawPhone) rawPhone = '201000000000';
+
+            const encodedText = encodeURIComponent(data.summary);
+            const whatsappUrl = `https://wa.me/${rawPhone}?text=${encodedText}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        function sendBriefViaEmail() {
+            const data = buildBriefSummary();
+            if (!data) return;
+
+            const ownerEmail = document.getElementById('owner-email').value.trim() || 'muhamed.elhamalawy@spacelight.eg';
+            const subject = encodeURIComponent(`طلب مشروع / خدمة جديد من: ${data.company} (${data.name}) - SPACE LIGHT`);
+            const body = encodeURIComponent(data.summary);
+
+            window.location.href = `mailto:${ownerEmail}?subject=${subject}&body=${body}`;
+        }
+
+        function copyProposalText() {
+            const text = document.getElementById('proposal-text-content').innerText;
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            document.getElementById('copy-btn-label').innerText = 'تم النسخ!';
+            setTimeout(() => {
+                document.getElementById('copy-btn-label').innerText = 'نسخ الوثيقة';
+            }, 2500);
+        }
+
+        // Initialize on Window Load
+        window.onload = function() {
+            renderAndonLines();
+            calculateSmartMRP();
+            updateTransparentCalc();
+        };
+    </script>
+</body>
+</html>
